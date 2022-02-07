@@ -35,6 +35,6 @@ The computer will guess if you decide to choose your own secret colors. You may 
 
 1)  12 turn it will call the `check_guess` method but different parameter.
 
---> Enter 4 colours that it is your create_code array.
---> Computer loops 12 time and each time, it shuffles the array.
---> Until the colour will same with our create_code array.
+--> Enter 4 colours that it is your create_code array.  
+--> Computer loops 12 time and each time, it shuffles the array.  
+--> Until the colour will same with our @guess_array.

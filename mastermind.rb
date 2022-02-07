@@ -89,18 +89,18 @@ class Game
   end
 
   def codemaker_attempt(guess_array)
-    @random_array = @guess_array.shuffle
+    @random_array = @guess_array2.shuffle
     print "#{@random_array.map(&:capitalize).join(' ')}"
     puts
-    @codebreaker.check_pegs(guess_array, @random_array)
+    @codebreaker.check_pegs(guess_array2, @random_array)
   end
 
   def codemaker_logic
-    @guess_array = @codebreaker.input
+    @guess_array2 = @codebreaker.input
     (1..20).each do |_i|
       sleep 0.75
       puts
-      if codemaker_attempt(@guess_array) == true
+      if codemaker_attempt(@guess_array2) == true
         puts 'Computer won!'
         break
       end
