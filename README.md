@@ -1,3 +1,7 @@
+# Mastermind
+
+## Phase 1 - Game Logic
+
 Gameplay and rules
 Assets:
 
@@ -16,6 +20,21 @@ Gameplay:
    -A white key peg indicates the existence of a correct color code peg placed in the wrong position.
 6. Once feedback is provided, another guess is made; guesses and feedback continue to alternate until either the codebreaker guesses correctly, or all rows on the decoding board are full.
 
-12 turn, each turn will codemaker provides feedback
+- 12 turn, each turn will codemaker provides feedback
 
-- until either the codebreaker guesses correctly, or all rows on the decoding board are full.
+## Phase 2
+
+1. Now refactor your code to allow the human player to choose whether they want to be the creator of the secret code or the guesser.
+
+## Phase 3
+
+The computer will guess if you decide to choose your own secret colors. You may choose to implement a computer strategy that follows the rules of the game or you can modify these rules.
+
+1. Enter four colours in order.
+2. Computer will guess their order.
+
+1)  12 turn it will call the `check_guess` method but different parameter.
+
+--> Enter 4 colours that it is your create_code array.
+--> Computer loops 12 time and each time, it shuffles the array.
+--> Until the colour will same with our create_code array.

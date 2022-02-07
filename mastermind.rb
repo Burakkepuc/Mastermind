@@ -2,12 +2,12 @@ class CodeMaker
   attr_reader :code
 
   def initialize
-    @colors_array = ["red","blue","yellow","black","orange","purple","green","white"] 
+    @colors_array = ["red", "blue", "yellow", "black", "orange", "purple", "green", "white"]
   end
 
-  def choose_pattern
+  def chose_random
     @show_chosen = @colors_array.sample(6)
-    @code = @show_chosen.first(4)
+    @code = @show_chosen.first(4) # There is code array
   end
 
   def show_ordered
@@ -18,7 +18,7 @@ class CodeMaker
 
   def show_unordered
     puts 'Shuffled:'
-    print @show_chosen.shuffle
+    print @show_chosen.map(&:capitalize).shuffle
     puts
   end
 end
@@ -30,39 +30,38 @@ class CodeBreaker
     @guess = []
   end
 
-  def make_array_empty
+  def array_reset
     @guess = []
   end
 
-  def is_win? 
-     @black_peg == 4 ? true : false
+  def is_win?
+    @black_peg == 4 ? true : false
   end
 
-  def guess_code
-    puts 'Enter 4 guess without comma'
+  def input
+    puts
+    puts 'Enter 4 Colours Without Comma'
     answer = gets.chomp.downcase
-    if answer.split.length > 4
+    if answer.split.length > 4 || answer.split.length < 4
       puts 'You should have entered 4 colour!'
-      guess_code
+      input
     else
-      make_array_empty
+      array_reset
       @guess << answer
       @guess = @guess.join(',').split
     end
   end
 
   # This method for whire and black pegs
-  def check_guess(code, guess)
+  def check_pegs(code, guess)
     @white_peg = 0
     @black_peg = 0
     index = 0
     while index < code.length
       if code[index] == guess[index]
         @black_peg += 1
-        puts "Black => #{@black_peg}"
-      elsif guess.any? { |c| code.include?(c) } && code[index] != guess[index]
+      elsif code.include?(guess[index]) && code[index] != guess[index]
         @white_peg += 1
-        puts "White => #{@white_peg}"
       end
       index += 1
     end
@@ -78,43 +77,65 @@ class Game
   end
 
   def codemaker_choose
-    @codemaker.choose_pattern
-    @codemaker.show_ordered
+    @codemaker.chose_random
+    #@codemaker.show_ordered #If you uncomment this and run the program
+    #you see the answer
     @codemaker.show_unordered
   end
 
   def codebreaker_attempt
-    guess_array = @codebreaker.guess_code
-     @codebreaker.check_guess(@codemaker.code, guess_array)
+    guess_array = @codebreaker.input
+    @codebreaker.check_pegs(@codemaker.code, guess_array)
   end
 
-  def guess
-    @codebreaker.guess
+  def codemaker_attempt(guess_array)
+    @random_array = @guess_array.shuffle
+    print "#{@random_array.map(&:capitalize).join(' ')}"
+    puts
+    @codebreaker.check_pegs(guess_array, @random_array)
+  end
+
+  def codemaker_logic
+    @guess_array = @codebreaker.input
+    (1..20).each do |_i|
+      sleep 0.75
+      puts
+      if codemaker_attempt(@guess_array) == true
+        puts 'Computer won!'
+        break
+      end
+      puts
+    end
+  end
+
+  def codebreaker_logic
+    (1..12).each do |_i|
+      if codebreaker_attempt == true
+        puts 'You won!'
+        break
+      end
+    end
+  end
+
+  def creator_or_guesser
+    puts 'Do you want to be Codemaker or Codebreaker'
+    side_choose = gets.chomp.downcase
+
+    if side_choose == 'codebreaker'
+      codemaker_choose
+      codebreaker_logic
+    elsif side_choose == 'codemaker'
+      codemaker_logic
+    else
+      puts 'Wrong choose. Chose again.'
+      creator_or_guesser
+    end
   end
 
   def play
-    codemaker_choose
-    (1..12).each do |i|
-      puts "#{i}. GUESS\n"
-     #puts "Guess array is #{guess}"
-      break if codebreaker_attempt == true
-    end
+    creator_or_guesser
   end
 end
 
 game = Game.new
 game.play
-
-
-
-
-# Computer randomly selects 4 colors from colors_array
-
-
-# (1..12).each do |i|
-
-
-#    p guess
-#    puts check_guess(code, guess)
-# #puts "You have include #{answer.capitalize}" if code.include?(answer)
-# end
