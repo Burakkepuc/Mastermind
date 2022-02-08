@@ -92,7 +92,7 @@ class Game
     @random_array = @guess_array2.shuffle
     print "#{@random_array.map(&:capitalize).join(' ')}"
     puts
-    @codebreaker.check_pegs(guess_array2, @random_array)
+    @codebreaker.check_pegs(@guess_array2, @random_array)
   end
 
   def codemaker_logic
