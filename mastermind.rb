@@ -78,8 +78,8 @@ class Game
 
   def codemaker_choose
     @codemaker.chose_random
-    #@codemaker.show_ordered #If you uncomment this and run the program
-    #you see the answer
+    # @codemaker.show_ordered #If you uncomment this and run the program
+    # you see the answer
     @codemaker.show_unordered
   end
 

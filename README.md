@@ -1,5 +1,14 @@
 # Mastermind
 
+Mastermind game made in Ruby that tries to be OOP.
+
+Specification and instruction from [The Odin Project](https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/ruby-programming/lessons/mastermind)
+
+## How to use
+
+For online use go to the [Repl](https://replit.com/@Burakkepuc/Mastermind#main.rb)
+For offline use simply download the file to one directory and run it in irb for a game prepared with players.
+
 ## Phase 1 - Game Logic
 
 Gameplay and rules
@@ -33,7 +42,7 @@ The computer will guess if you decide to choose your own secret colors. You may 
 1. Enter four colours in order.
 2. Computer will guess their order.
 
-1)  12 turn it will call the `check_guess` method but different parameter.
+3. 12 turn it will call the `check_guess` method but different parameter.
 
 --> Enter 4 colours that it is your create_code array.  
 --> Computer loops 12 time and each time, it shuffles the array.  
