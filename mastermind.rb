@@ -1,4 +1,4 @@
-class CodeMaker
+class SelectColours
   attr_reader :code
 
   def initialize
@@ -23,7 +23,7 @@ class CodeMaker
   end
 end
 
-class CodeBreaker
+class GameLogic
   attr_reader :guess
 
   def initialize
@@ -70,49 +70,64 @@ class CodeBreaker
   end
 end
 
+class HumanPlayer
+   def initialize
+    @game_logic = GameLogic.new
+    @select_colours = SelectColours.new
+  end
+  
+
+end
+
 class Game
   def initialize
-    @codebreaker = CodeBreaker.new
-    @codemaker = CodeMaker.new
+    @game_logic = GameLogic.new
+    @select_colours = SelectColours.new
   end
 
-  def codemaker_choose
-    @codemaker.chose_random
-    # @codemaker.show_ordered #If you uncomment this and run the program
+  def set_colours
+    @select_colours.chose_random
+    # @select_colours.show_ordered #If you uncomment this line and run the program
     # you see the answer
-    @codemaker.show_unordered
+    @select_colours.show_unordered
   end
 
   def codebreaker_attempt
-    guess_array = @codebreaker.input
-    @codebreaker.check_pegs(@codemaker.code, guess_array)
+    guess_array = @game_logic.input
+    @game_logic.check_pegs(@select_colours.code, guess_array)
   end
 
-  def codemaker_attempt(guess_array)
+  def codemaker_attempt()
     @random_array = @guess_array2.shuffle
     print "#{@random_array.map(&:capitalize).join(' ')}"
     puts
-    @codebreaker.check_pegs(@guess_array2, @random_array)
+    @game_logic.check_pegs(@guess_array2, @random_array)
   end
 
   def codemaker_logic
-    @guess_array2 = @codebreaker.input
-    (1..20).each do |_i|
+    @guess_array2 = @game_logic.input
+    (1..12).each do |i|
       sleep 0.75
       puts
-      if codemaker_attempt(@guess_array2) == true
-        puts 'Computer won!'
+      if codemaker_attempt == true
+        puts "Computer won! Found #{i}. in attempt"
         break
+      end
+      if i == 12
+        puts "Computer lost!"
       end
       puts
     end
   end
 
   def codebreaker_logic
-    (1..12).each do |_i|
+    (1..12).each do |i|
       if codebreaker_attempt == true
-        puts 'You won!'
+        puts "You won #{i} . in attempt!"
         break
+      end
+      if i == 12
+        puts "Computer lost!"
       end
     end
   end
@@ -122,7 +137,7 @@ class Game
     side_choose = gets.chomp.downcase
 
     if side_choose == 'codebreaker'
-      codemaker_choose
+      set_colours
       codebreaker_logic
     elsif side_choose == 'codemaker'
       codemaker_logic
