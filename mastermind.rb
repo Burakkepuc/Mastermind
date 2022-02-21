@@ -71,15 +71,6 @@ class GameLogic
 end
 
 class HumanPlayer
-   def initialize
-    @game_logic = GameLogic.new
-    @select_colours = SelectColours.new
-  end
-  
-
-end
-
-class Game
   def initialize
     @game_logic = GameLogic.new
     @select_colours = SelectColours.new
@@ -87,7 +78,7 @@ class Game
 
   def set_colours
     @select_colours.chose_random
-    # @select_colours.show_ordered #If you uncomment this line and run the program
+    @select_colours.show_ordered # If you uncomment this line and run the program
     # you see the answer
     @select_colours.show_unordered
   end
@@ -95,6 +86,25 @@ class Game
   def codebreaker_attempt
     guess_array = @game_logic.input
     @game_logic.check_pegs(@select_colours.code, guess_array)
+  end
+
+  def codebreaker_logic
+    (1..12).each do |i|
+      if codebreaker_attempt == true
+        puts "You won #{i} . in attempt!"
+        break
+      end
+      if i == 12
+        puts "Computer lost!"
+      end
+    end
+  end
+end
+
+class AIPlayer
+  def initialize
+    @game_logic = GameLogic.new
+    @select_colours = SelectColours.new
   end
 
   def codemaker_attempt()
@@ -119,17 +129,12 @@ class Game
       puts
     end
   end
+end
 
-  def codebreaker_logic
-    (1..12).each do |i|
-      if codebreaker_attempt == true
-        puts "You won #{i} . in attempt!"
-        break
-      end
-      if i == 12
-        puts "Computer lost!"
-      end
-    end
+class Game
+  def initialize
+    @codebreaker = HumanPlayer.new
+    @codemaker = AIPlayer.new
   end
 
   def creator_or_guesser
@@ -137,10 +142,10 @@ class Game
     side_choose = gets.chomp.downcase
 
     if side_choose == 'codebreaker'
-      set_colours
-      codebreaker_logic
+      @codebreaker.set_colours
+      @codebreaker.codebreaker_logic
     elsif side_choose == 'codemaker'
-      codemaker_logic
+      @codemaker.codemaker_logic
     else
       puts 'Wrong choose. Chose again.'
       creator_or_guesser
